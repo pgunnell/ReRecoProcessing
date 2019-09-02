@@ -1,0 +1,9 @@
+---+++ !Run2018A 
+
+| *DataSet* | *prepID monitoring* | *run* |
+| /SingleMuon/Run2018A-v1/RAW | [[https://cms-pdmv.cern.ch/pmp/historical?r=ReReco-Run2018A-SingleMuon-ForValUL2018-0001][ReReco-Run2018A-SingleMuon-ForValUL2018-0001]] | [315420] |
+| /MET/Run2018A-v1/RAW | [[https://cms-pdmv.cern.ch/pmp/historical?r=ReReco-Run2018A-MET-ForValUL2018-0002][ReReco-Run2018A-MET-ForValUL2018-0002]] | [315420] |
+| /DoubleMuon/Run2018A-v1/RAW | [[https://cms-pdmv.cern.ch/pmp/historical?r=ReReco-Run2018A-DoubleMuon-ForValUL2018-0003][ReReco-Run2018A-DoubleMuon-ForValUL2018-0003]] | [315420] |
+| /EGamma/Run2018A-v1/RAW | [[https://cms-pdmv.cern.ch/pmp/historical?r=ReReco-Run2018A-EGamma-ForValUL2018-0004][ReReco-Run2018A-EGamma-ForValUL2018-0004]] | [315420] |
+| /ZeroBias/Run2018A-v1/RAW | [[https://cms-pdmv.cern.ch/pmp/historical?r=ReReco-Run2018A-ZeroBias-ForValUL2018-0005][ReReco-Run2018A-ZeroBias-ForValUL2018-0005]] | [315420] |
+| /JetHT/Run2018A-v1/RAW | [[https://cms-pdmv.cern.ch/pmp/historical?r=ReReco-Run2018A-JetHT-ForValUL2018-0006][ReReco-Run2018A-JetHT-ForValUL2018-0006]] | [315420] |
