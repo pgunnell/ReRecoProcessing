@@ -35,8 +35,26 @@ from Configuration.AlCa.autoAlca import AlCaRecoMatrix
 #
 def prepare(era, proc_string, GT):
 
-    
+    #BEGINNING OF CODE TO MODIFY IN THE FIRST PLACE
 
+    ListDatasetsToBeProcessed = ["ZeroBias","EGamma","SingleMuon","DoubleMuon","JetHT","MET"]   
+    
+    #Maps for time/ and size/event
+    
+    ZeroBias = {'time_event':'3.0','size_event':'2000'}
+    EGamma = {'time_event':'3.0','size_event':'2000'}
+    SingleMuon = {'time_event':'3.0','size_event':'2000'}
+    DoubleMuon = {'time_event':'3.0','size_event':'2000'}
+    JetHT = {'time_event':'3.0','size_event':'2000'}
+    MET = {'time_event':'3.0','size_event':'2000'}
+
+    #maps work only if the runs are under a list
+    runs_2018A = [315420]
+    runs_2018B = [317626, 317640, 317641, 317182]
+    runs_2018C = [320065]
+    runs_2018D = [324021, 324022, 324077, 325101]
+
+    #END OF CODE TO MODIFY IN THE FIRST PLACE
 
     acquisition_era = era
 #    if("Run2016B" in era):
@@ -113,20 +131,6 @@ def prepare(era, proc_string, GT):
     # JEC: ZeroBias/SinglePhoton/JetHT/DoubleEG/DoubleMu
 
     pd_priorities = {}
-    # these are the PDs for JME
-   # pd_priorities['NoBPTX'] = 87000
-   # pd_priorities['SingleElectron'] = 93500
-   # pd_priorities['MET'] = 93500
-   # pd_priorities['SingleMuon'] = 93500
-   # pd_priorities['Charmonium'] = 87000
-   # pd_priorities['MuonEG'] = 93500
-   # pd_priorities['JetHT'] = 93500
-   # pd_priorities['MuOnia'] = 87000
-   # pd_priorities['HeavyFlavor'] = 87000
-   # pd_priorities['FSQJet2'] = 87000
-   # pd_priorities['FSQJet1'] = 87000
-
-
 
     campaign = 'UltraLegacy2018'
     num_core = 8
@@ -155,20 +159,24 @@ def prepare(era, proc_string, GT):
     
     #one could use also a map for that (mapping era and runs)
     if (acquisition_era=='Run2018A'):
-        theRuns = filter(lambda x: (x == 315420), AlltheRuns)
+        #theRuns = filter(lambda x: (x == 315420), AlltheRuns)
+        theRuns = runs_2018A
 
     elif (acquisition_era=='Run2018B'):
-        theRuns = filter(lambda x: (x in [317626, 317640, 317641, 317182]), AlltheRuns)
+        #theRuns = filter(lambda x: (x in [317626, 317640, 317641, 317182]), AlltheRuns)
+        theRuns = runs_2018B
 
     elif (acquisition_era=='Run2018C'):
-        theRuns = filter(lambda x: (x == 320065), AlltheRuns)
+        #theRuns = filter(lambda x: (x == 320065), AlltheRuns)
+        theRuns = runs_2018C
 
     elif (acquisition_era=='Run2018D'):
-        theRuns = filter(lambda x: (x in [324021, 324022, 324077, 325101]), AlltheRuns)
+        #theRuns = filter(lambda x: (x in [324021, 324022, 324077, 325101]), AlltheRuns)
+        theRuns = runs_2018D
     
     else:
         theRuns = 0
-    #theRuns = AlltheRuns
+
     print sorted(theRuns)
 
 #    theDatasets = api.listDatasets(data_tier_name='RAW', acquisition_era_name='%s' % era)
@@ -209,60 +217,6 @@ def prepare(era, proc_string, GT):
     twiki.write('---+++ !%s \n\n' % acquisition_era)
     twiki.write('| *DataSet* | *prepID monitoring* | *run* |\n')
 
-
-#    master=file('master_'+era+'.conf','w')
-#    master.write("[DEFAULT] \n")
-#    master.write("group=ppd \n")
-#    master.write("user=%s \n" % username)
-#    master.write("request_type=ReReco \n")
-#    master.write("release=%s \n" % cmssw_version)
-#    master.write("globaltag=%s \n" % GT)
-#    master.write("\n")
-#    master.write("campaign="+campaign+"\n")
-#    master.write("acquisition_era="+acquisition_era+"\n")
-
-#    master.write("\n")
-#    master.write("processing_string="+proc_string+" \n")
-#    master.write("\n")
-#    master.write("priority=%i \n" % default_priority)
-#    if ("SingleMuon" in pd_name):
-#        master.write("time_event=3.2 \n")
-#        master.write("size_event=874 \n")
-#    elif ("ZeroBias" in pd_name):
-#        master.write("time_event= \n")
-#        master.write("size_event= \n")
-#    elif ("SingleElectron" in pd_name):
-#        master.write("time_event= \n")
-#        master.write("size_event= \n")
-#    elif ("JetHT" in pd_name):
-#        master.write("time_event= \n")
-#        master.write("size_event= \n")
-#    elif ("DoubleMuon" in pd_name):
-#        master.write("time_event= \n")
-#        master.write("size_event= \n")
-#    elif ("DoubleEG" in pd_name):
-#        master.write("time_event= \n")
-#        master.write("size_event= \n")
-#    elif ("SinglePhoton" in pd_name):
-#        master.write("time_event= \n")
-#        master.write("size_event= \n")
-#    master.write("size_memory = 14000 \n")
-#    master.write("multicore=%i \n" % num_core)
-
-#    cfg_harvesting_file_name = 'harvesting.py'
-#    master.write("harvest_cfg=%s \n" % cfg_harvesting_file_name)
-
-#    harvesting_command = 'cmsDriver.py step4 --data --filetype DQM --conditions %s -s HARVESTING:@rerecoZeroBias --era Run2_2017 --scenario pp --filein file:RECO_RAW2DIGI_L1Reco_RECO_ALCA_EI_PAT_DQM_inDQM.root --python_filename=%s --no_exec' % (GT, cfg_harvesting_file_name)
-#    if not os.path.isfile(cfg_harvesting_file_name):
-#        print 'creating harvesting cfg...'
-#        st_and_out_harvst = commands.getstatusoutput(harvesting_command)
-#        if st_and_out_harvst[0] != 0:
-#            print '[ERROR] cfg creation failed with message: %s' % st_and_out_harvst[1]
-
-
-
-#    master.flush()
-
     for oneDS in theDatasets:
 
         theDataset= oneDS['dataset']
@@ -280,7 +234,8 @@ def prepare(era, proc_string, GT):
 
             print '    adding to re-reco matrix'
 
-            if not("ZeroBias" in pd_name or "JetHT" in pd_name or "SingleMuon" in pd_name or "DoubleMuon" in pd_name or "EGamma" in pd_name or "MET" in pd_name):
+            if not(pd_name in ListDatasetsToBeProcessed):
+                #if not("ZeroBias" in pd_name or "JetHT" in pd_name or "SingleMuon" in pd_name or "DoubleMuon" in pd_name or "EGamma" in pd_name or "MET" in pd_name):
                 continue
 
             #print oneDS
@@ -319,23 +274,23 @@ def prepare(era, proc_string, GT):
                 master.write("priority=%i \n" % default_priority)
 
                 if ("SingleMuon" in pd_name):
-                    master.write("time_event=3.2 \n")
-                    master.write("size_event=874 \n")
+                    master.write("time_event="+str(SingleMuon['time_event'])+"\n")
+                    master.write("size_event="+str(SingleMuon['size_event'])+"\n")
                 elif ("ZeroBias" in pd_name):
-                    master.write("time_event=1.6 \n")
-                    master.write("size_event=1405 \n")
+                    master.write("time_event="+str(ZeroBias['time_event'])+"\n")
+                    master.write("size_event="+str(ZeroBias['size_event'])+"\n")
                 elif ("MET" in pd_name):
-                    master.write("time_event=1.9 \n")
-                    master.write("size_event=566 \n")
+                    master.write("time_event="+str(MET['time_event'])+"\n")
+                    master.write("size_event="+str(MET['size_event'])+"\n")
                 elif ("JetHT" in pd_name):
-                    master.write("time_event= 1.7 \n")
-                    master.write("size_event= 1455 \n")
+                    master.write("time_event="+str(JetHT['time_event'])+"\n")
+                    master.write("size_event="+str(JetHT['size_event'])+"\n")
                 elif ("DoubleMuon" in pd_name):
-                    master.write("time_event= 1.5 \n")
-                    master.write("size_event= 451 \n")
+                    master.write("time_event="+str(DoubleMuon['time_event'])+"\n")
+                    master.write("size_event="+str(DoubleMuon['size_event'])+"\n")
                 elif ("EGamma" in pd_name):
-                    master.write("time_event=3.1 \n")
-                    master.write("size_event=1811 \n")
+                    master.write("time_event="+str(EGamma['time_event'])+"\n")
+                    master.write("size_event="+str(EGamma['size_event'])+"\n")
               
                 master.write("size_memory = 14000 \n")
                 master.write("multicore=%i \n" % num_core)    
@@ -392,8 +347,6 @@ def prepare(era, proc_string, GT):
                 else : 
                     dqmseq = 'DQM:@rerecoCommon'
     
-
-
                 # if ( (pd_name in autoSkim.keys()) and (not(keepreco)) ) :
                 #    #            if ( (pd_name_short in autoSkim.keys()) and (not(keepreco)) ) :
                 #    master.write("transient_output = [\"RECOoutput\"]")
@@ -401,12 +354,8 @@ def prepare(era, proc_string, GT):
                 #    recotier='RECO,'
 
                 input_file_name = 'file:test.root'
-                if ("ZeroBias" in pd_name) :
-                    reco_command = 'cmsDriver.py RECO -s RAW2DIGI,L1Reco,RECO,%sEI,PAT,%s --runUnscheduled --nThreads %i --data --era Run2_2018 --scenario pp --conditions %s --customise_commands="process.DQMStore.saveByLumi = cms.untracked.bool(True)"  --eventcontent %sAOD,MINIAOD,DQM --datatier %sAOD,MINIAOD,DQMIO --customise %s,Configuration/DataProcessing/Utils.addMonitoring --filein %s -n 100 --python_filename=%s --no_exec' % (skimseq+alcaseq, dqmseq, num_core, GT, recotier, recotier, str(customera[acquisition_era]), input_file_name, cfg_file_name)
-                else:
-                    reco_command = 'cmsDriver.py RECO -s RAW2DIGI,L1Reco,RECO,%sEI,PAT,%s --runUnscheduled --nThreads %i --data --era Run2_2018 --scenario pp --conditions %s  --customise_commands="process.DQMStore.saveByLumi = cms.untracked.bool(True)" --eventcontent %sAOD,MINIAOD,DQM --datatier %sAOD,MINIAOD,DQMIO --customise %s,Configuration/DataProcessing/Utils.addMonitoring --filein %s -n 100 --python_filename=%s --no_exec' % (skimseq+alcaseq, dqmseq, num_core,GT, recotier, recotier, str(customera[acquisition_era]), input_file_name, cfg_file_name)
-
-#                reco_command = 'cmsDriver.py RECO -s RAW2DIGI,L1Reco,RECO,%sEI,PAT,DQM:@allForPrompt --runUnscheduled --nThreads %i --data --era Run2_2016 --scenario pp --conditions %s --eventcontent %sAOD,MINIAOD,DQM --datatier %sAOD,MINIAOD,DQMIO --customise %s --filein %s -n 100 --python_filename=%s --no_exec' % (skimseq+alcaseq, num_core, GT, recotier, recotier, customera[campaign], input_file_name, cfg_file_name)
+                reco_command = 'cmsDriver.py RECO -s RAW2DIGI,L1Reco,RECO,%sEI,PAT,%s --runUnscheduled --nThreads %i --data --era Run2_2018 --scenario pp --conditions %s --customise_commands="process.DQMStore.saveByLumi = cms.untracked.bool(True)"  --eventcontent %sAOD,MINIAOD,DQM --datatier %sAOD,MINIAOD,DQMIO --customise %s,Configuration/DataProcessing/Utils.addMonitoring --filein %s -n 100 --python_filename=%s --no_exec' % (skimseq+alcaseq, dqmseq, num_core, GT, recotier, recotier, str(customera[acquisition_era]), input_file_name, cfg_file_name)
+                
                 print '    cmsDriver command: %s' % reco_command
 
                 if not os.path.isfile(cfg_file_name):
@@ -416,7 +365,6 @@ def prepare(era, proc_string, GT):
                         print '[ERROR] cfg creation failed with message: %s' % st_and_out[1]
 
                 print ' creating harvesting...'        
-
 
                 harvseq=''       
 
